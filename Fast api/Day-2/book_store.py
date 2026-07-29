@@ -35,13 +35,13 @@ books = [
     },
 ]
 @app.get("/")
-def get_book():
+def home():
     return{
         "message": "Welcome to the Book center"
     }
 
 @app.get("/books")
-def get_book():
+def get_books():
     return books
 
 @app.get("/books/{id}")
@@ -68,4 +68,46 @@ def add_book(title:str, author:str,price:float):
     return{
         "message": "Book added Successfully",
         "book": new_book
+    }
+
+#update book (path+query)
+@app.get("/books/{id}")
+def update_book(id: int, title: str,author: str,price:float):
+    for book in books:
+        if book["id"] == id:
+            book["title"] = title
+            book["author"] = author
+            book["price"] = price
+
+            return{
+                "message": "Book updated successfully",
+                "book": book
+            }
+
+    return {"message": "Book not found"}
+
+#Delete book
+@app.delete("/books/{id}")
+def delete_book(id: int):
+    for book in books:
+        if book["id"] == id:
+            books.remove(book)
+
+            return {"message": "Book deleted Successfully"}
+
+    return {"message": "Book not found"}
+
+# Search books by author (Query Parameter)
+@app.get("/books/search")
+def search_books(author: str):
+
+    result = []
+
+    for book in books:
+        if book["author"].lower() == author.lower():
+            result.append(book)
+
+    return {
+        "total_books": len(result),
+        "books": result
     }
