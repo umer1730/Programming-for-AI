@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import Optional
 
-app = FastAPI()
+app = FastAPI(title = "Student Data")
 
 class Address(BaseModel):
     city: str
@@ -16,7 +16,7 @@ class Student(BaseModel):
     semester: Optional[int] = None
     address: Address
 
-@app.post("/student")
+@app.post("/student",response_model=Student)
 def create_student(student: Student):
     return student
 
