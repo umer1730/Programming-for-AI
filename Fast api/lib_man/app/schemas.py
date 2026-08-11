@@ -6,6 +6,9 @@ class AuthorCreate(BaseModel):
 class BookCreate(BaseModel):
     title: str
     price: float
+
+class AssignAuthor(BaseModel):
+    book_id: int
     author_id: int
 
 class AuthorResponse(BaseModel):
@@ -19,8 +22,7 @@ class BookResponse(BaseModel):
     id: int
     title: str
     price: float
-    author_id: int
 
-#Jab tum SQLAlchemy object return karoge, Pydantic us object ko read nahi kar payega aur error aa sakta hai so we use this 
+#Jab SQLAlchemy object return karege, Pydantic us object ko read nahi kar payega aur error aa sakta hai so we use this 
     class Config:
         from_attributes = True
