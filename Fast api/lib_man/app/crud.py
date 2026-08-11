@@ -18,7 +18,6 @@ def create_book(db: Session, book: BookCreate):
     new_book = Book(
         title = book.title,
         price = book.price,
-        author_id = book.author_id
     )
 
     db.add(new_book)
@@ -29,3 +28,15 @@ def create_book(db: Session, book: BookCreate):
 
 def get_books(db: Session):
     return db.query(Book).all()
+
+def assign_author(db: Session,book_id: int,author_id: int):
+    book = db.query(Book).filter(Book.id == book_id).first()
+    author = db.query(Author).filter(Author.id == author_id).first()
+
+    if not book or not author:
+        return None
+
+    book.authors.append(author)
+
+    db.commit()
+    return book
